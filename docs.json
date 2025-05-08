@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "slate",
+  "name": "Lexolingo Documentation",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#FFE81F",
+    "light": "#FFF7C0",
+    "dark": "#000000"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -22,14 +22,12 @@
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Features",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "features/quiz-structure",
+              "features/question-management",
+              "features/responsive-design",
+              "features/themes"
             ]
           }
         ]
@@ -44,12 +42,12 @@
             ]
           },
           {
-            "group": "Endpoint Examples",
+            "group": "Endpoints",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/subjects",
+              "api-reference/topics",
+              "api-reference/questions",
+              "api-reference/scores"
             ]
           }
         ]
@@ -83,20 +81,20 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@lexolingo.com"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Try Lexolingo",
+      "href": "https://lexolingo.com"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/lexolingo",
+      "github": "https://github.com/tristam15/lexolingo",
+      "linkedin": "https://linkedin.com/company/lexolingo"
     }
   }
 }

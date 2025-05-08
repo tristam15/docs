@@ -1,0 +1,297 @@
+---
+title: 'Topics API'
+description: 'API endpoints for managing quiz topics within subjects'
+---
+
+# Topics API
+
+Topics are the second level in the Lexolingo quiz hierarchy, belonging to subjects. These endpoints allow you to create, retrieve, update, and delete topics.
+
+## Get All Topics
+
+<ParamField query="subjectId" type="number">
+  Filter topics by subject ID
+</ParamField>
+
+<ParamField query="includeSubtopics" type="boolean" default="false">
+  When true, includes all subtopics within each topic in the response
+</ParamField>
+
+<ParamField query="limit" type="number" default="20">
+  Maximum number of topics to return
+</ParamField>
+
+<ParamField query="offset" type="number" default="0">
+  Number of topics to skip for pagination
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X GET \
+    "https://api.lexolingo.com/v1/topics?subjectId=1&includeSubtopics=true" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+
+  ```javascript Node.js
+  const axios = require('axios');
+  
+  const response = await axios.get('https://api.lexolingo.com/v1/topics', {
+    params: { 
+      subjectId: 1,
+      includeSubtopics: true 
+    },
+    headers: { Authorization: 'Bearer YOUR_API_KEY' }
+  });
+  
+  console.log(response.data);
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": [
+      {
+        "id": 1,
+        "subjectId": 1,
+        "name": "Jedi",
+        "description": "Jedi Knights and Masters",
+        "iconUrl": "https://assets.lexolingo.com/icons/jedi.png",
+        "subtopicCount": 3,
+        "questionCount": 45,
+        "subtopics": [
+          {
+            "id": 1,
+            "name": "Jedi Council",
+            "description": "Members of the Jedi Council"
+          },
+          {
+            "id": 2,
+            "name": "Jedi Knights",
+            "description": "Fully trained Jedi Knights"
+          },
+          {
+            "id": 3,
+            "name": "Padawans",
+            "description": "Jedi apprentices"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "subjectId": 1,
+        "name": "Sith",
+        "description": "Sith Lords and apprentices",
+        "iconUrl": "https://assets.lexolingo.com/icons/sith.png",
+        "subtopicCount": 2,
+        "questionCount": 30,
+        "subtopics": [
+          {
+            "id": 4,
+            "name": "Sith Lords",
+            "description": "Masters of the dark side"
+          },
+          {
+            "id": 5,
+            "name": "Sith Apprentices",
+            "description": "Apprentices to Sith Lords"
+          }
+        ]
+      }
+    ],
+    "error": null,
+    "meta": {
+      "total": 5,
+      "limit": 20,
+      "offset": 0
+    }
+  }
+  ```
+</ResponseExample>
+
+## Get Topic by ID
+
+<ParamField path="id" type="number" required>
+  The unique identifier of the topic
+</ParamField>
+
+<ParamField query="includeSubtopics" type="boolean" default="false">
+  When true, includes all subtopics within the topic in the response
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X GET \
+    "https://api.lexolingo.com/v1/topics/1?includeSubtopics=true" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "id": 1,
+      "subjectId": 1,
+      "name": "Jedi",
+      "description": "Jedi Knights and Masters",
+      "iconUrl": "https://assets.lexolingo.com/icons/jedi.png",
+      "subtopicCount": 3,
+      "questionCount": 45,
+      "subtopics": [
+        {
+          "id": 1,
+          "name": "Jedi Council",
+          "description": "Members of the Jedi Council"
+        },
+        {
+          "id": 2,
+          "name": "Jedi Knights",
+          "description": "Fully trained Jedi Knights"
+        },
+        {
+          "id": 3,
+          "name": "Padawans",
+          "description": "Jedi apprentices"
+        }
+      ]
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Create Topic
+
+<ParamField body="subjectId" type="number" required>
+  ID of the subject this topic belongs to
+</ParamField>
+
+<ParamField body="name" type="string" required>
+  Name of the topic
+</ParamField>
+
+<ParamField body="description" type="string">
+  Description of the topic
+</ParamField>
+
+<ParamField body="iconUrl" type="string">
+  URL to the topic's icon image
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X POST \
+    "https://api.lexolingo.com/v1/topics" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "subjectId": 1,
+      "name": "Force Users",
+      "description": "Characters who can use the Force",
+      "iconUrl": "https://assets.lexolingo.com/icons/force-users.png"
+    }'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "id": 3,
+      "subjectId": 1,
+      "name": "Force Users",
+      "description": "Characters who can use the Force",
+      "iconUrl": "https://assets.lexolingo.com/icons/force-users.png",
+      "subtopicCount": 0,
+      "questionCount": 0
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Update Topic
+
+<ParamField path="id" type="number" required>
+  The unique identifier of the topic to update
+</ParamField>
+
+<ParamField body="name" type="string">
+  Updated name of the topic
+</ParamField>
+
+<ParamField body="description" type="string">
+  Updated description of the topic
+</ParamField>
+
+<ParamField body="iconUrl" type="string">
+  Updated URL to the topic's icon image
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X PUT \
+    "https://api.lexolingo.com/v1/topics/3" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "name": "Force-Sensitive Characters",
+      "description": "Characters with Force abilities"
+    }'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "id": 3,
+      "subjectId": 1,
+      "name": "Force-Sensitive Characters",
+      "description": "Characters with Force abilities",
+      "iconUrl": "https://assets.lexolingo.com/icons/force-users.png",
+      "subtopicCount": 0,
+      "questionCount": 0
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Delete Topic
+
+<ParamField path="id" type="number" required>
+  The unique identifier of the topic to delete
+</ParamField>
+
+<ParamField query="force" type="boolean" default="false">
+  When true, deletes the topic and all its associated subtopics and questions. 
+  When false, the operation will fail if the topic contains any subtopics.
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X DELETE \
+    "https://api.lexolingo.com/v1/topics/3?force=true" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "message": "Topic deleted successfully",
+      "deletedSubtopics": 2,
+      "deletedQuestions": 15
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>

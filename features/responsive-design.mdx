@@ -1,0 +1,75 @@
+---
+title: 'Responsive Design'
+description: 'Learn about Lexolingo\'s mobile-first responsive design approach'
+---
+
+# Responsive Design
+
+Lexolingo is built with a mobile-first approach, ensuring optimal user experience across all devices with special attention to smartphone users.
+
+## Mobile-First Philosophy
+
+With 80% of users accessing Lexolingo on Android phones and 20% on iPhones, our design philosophy prioritizes the mobile experience while ensuring the application remains fully functional and visually appealing on larger screens.
+
+<Frame caption="Responsive design across devices">
+  <img src="/images/responsive-design.png" alt="Lexolingo on different devices" />
+</Frame>
+
+## Key Responsive Features
+
+### Touch-Optimized Interface
+
+All interactive elements are designed with touch interactions in mind:
+
+- Minimum touch target size of 44×44 pixels
+- Adequate spacing between interactive elements
+- Swipe gestures for navigating between questions
+- Large, easy-to-tap buttons for answering questions
+
+### Adaptive Layouts
+
+The application layout adapts intelligently based on screen size:
+
+```css
+/* Example of our responsive breakpoints */
+:root {
+  --breakpoint-sm: 640px;   /* Small smartphones */
+  --breakpoint-md: 768px;   /* Large smartphones */
+  --breakpoint-lg: 1024px;  /* Tablets */
+  --breakpoint-xl: 1280px;  /* Desktops */
+}
+```
+
+- Single-column layouts on small screens
+- Multi-column layouts on larger screens
+- Collapsible navigation on mobile devices
+- Optimized font sizes and spacing for readability
+
+### Performance Optimization
+
+Mobile optimization extends beyond layout to performance:
+
+- Optimized image loading and caching
+- Minimal network requests
+- Efficient rendering to conserve battery life
+- Offline functionality for quiz-taking
+
+## Testing Across Devices
+
+Lexolingo is rigorously tested across a range of devices:
+
+| Device Category | Screen Sizes | Testing Priority |
+| --------------- | ------------ | --------------- |
+| Android Phones  | 5.0" - 6.7" | High (80% of users) |
+| iPhones         | 5.4" - 6.7" | Medium (20% of users) |
+| Tablets         | 7.9" - 12.9" | Low |
+| Desktops        | 13"+ | Low |
+
+## Implementation Technologies
+
+The responsive design is implemented using:
+
+- Tailwind CSS for utility-based responsive styling
+- React components with responsive behavior
+- Media queries for device-specific adjustments
+- Flexbox and CSS Grid for adaptive layouts

@@ -1,0 +1,66 @@
+---
+title: 'Question Management'
+description: 'Learn how to add, edit, and manage quiz questions in Lexolingo'
+---
+
+# Question Management
+
+Lexolingo provides flexible options for adding and managing quiz questions to suit different workflows and content volumes.
+
+## Adding Individual Questions
+
+The single question add feature allows you to create questions one at a time with a user-friendly form interface.
+
+<Frame caption="Single question add interface">
+  <img src="/images/single-question-add.png" alt="Screenshot of single question add interface" />
+</Frame>
+
+When adding a single question, you can specify:
+- The subject, topic, and subtopic it belongs to
+- Question text
+- Multiple-choice options (typically 4)
+- The correct answer
+- An optional explanation that appears after answering
+
+## Bulk Question Addition
+
+For creating multiple questions at once, the bulk add feature streamlines the process:
+
+```javascript
+// Example of bulk question structure
+const bulkQuestions = [
+  {
+    text: "Who is Luke Skywalker's father?",
+    options: [
+      "Obi-Wan Kenobi",
+      "Darth Vader",
+      "Emperor Palpatine",
+      "Yoda"
+    ],
+    correctAnswer: 1, // Index of correct option (Darth Vader)
+    subtopicId: 12 // ID of the "Empire Strikes Back" subtopic
+  },
+  // More questions...
+];
+```
+
+## CSV Import
+
+For large question sets or migrating from other systems, Lexolingo supports importing questions from CSV files.
+
+### CSV Format
+
+The CSV import expects the following column structure:
+
+```csv
+Subject,Topic,Subtopic,Question,Option1,Option2,Option3,Option4,CorrectOption,Explanation
+Characters,Jedi,Force Users,Who trained Luke Skywalker?,Obi-Wan Kenobi,Yoda,Both Obi-Wan and Yoda,Qui-Gon Jinn,3,Luke was initially trained by Obi-Wan and later by Yoda on Dagobah.
+```
+
+<Note>
+If the specified subject, topic, or subtopic doesn't exist, Lexolingo will create it automatically during import.
+</Note>
+
+## Question Management
+
+All questions can be edited, deleted, or moved between subtopics after creation. The question management interface provides filtering and search capabilities to quickly find specific questions.

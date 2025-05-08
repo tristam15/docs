@@ -1,0 +1,109 @@
+---
+title: 'Themes and Customization'
+description: 'Learn about Lexolingo\'s theming capabilities and customization options'
+---
+
+# Themes and Customization
+
+Lexolingo is designed to be fully customizable, allowing you to adapt the quiz app to different themes and branding requirements.
+
+## Theme System
+
+The app uses a flexible theming system that allows for complete visual customization without changing the core functionality.
+
+<Frame caption="Star Wars theme example">
+  <img src="/images/star-wars-theme.png" alt="Star Wars themed quiz interface" />
+</Frame>
+
+## Customizable Elements
+
+### Color Schemes
+
+Each theme includes a comprehensive color palette that's applied throughout the application:
+
+```typescript
+// Example theme configuration
+const starWarsTheme = {
+  colors: {
+    primary: '#FFE81F',      // Star Wars yellow
+    secondary: '#000000',    // Black
+    accent: '#0088FF',       // Lightsaber blue
+    background: '#121212',   // Dark background
+    text: '#FFFFFF',         // White text
+    // Additional color variables
+  }
+};
+```
+
+### Typography
+
+Fonts can be customized to match the theme:
+
+- Heading fonts
+- Body text fonts
+- Special display fonts for scores and results
+
+### Visual Assets
+
+Theme-specific visual elements include:
+
+- Logo and branding
+- Background images and patterns
+- Icons and illustrations
+- Loading animations
+- Success/failure indicators
+
+## Creating Custom Themes
+
+Custom themes can be created by:
+
+1. Creating a new theme configuration file
+2. Defining the color palette and typography
+3. Adding theme-specific assets
+4. Applying the theme through the configuration settings
+
+## Theme Switching
+
+Lexolingo supports runtime theme switching, allowing users to change themes without reloading the application:
+
+```jsx
+function ThemeSwitcher() {
+  const { currentTheme, setTheme } = useTheme();
+  
+  return (
+    <div className="theme-switcher">
+      <h3>Select Theme</h3>
+      <div className="theme-options">
+        <button 
+          className={currentTheme === 'starWars' ? 'active' : ''}
+          onClick={() => setTheme('starWars')}
+        >
+          Star Wars
+        </button>
+        <button 
+          className={currentTheme === 'fantasy' ? 'active' : ''}
+          onClick={() => setTheme('fantasy')}
+        >
+          Fantasy
+        </button>
+        {/* Additional theme options */}
+      </div>
+    </div>
+  );
+}
+```
+
+## Default Themes
+
+Lexolingo comes with several pre-built themes:
+
+| Theme | Primary Color | Style |
+| ----- | ------------- | ----- |
+| Star Wars | Yellow (#FFE81F) | Dark space theme with iconic Star Wars elements |
+| Classic | Blue (#0066CC) | Clean, minimalist quiz interface |
+| Dark Mode | Purple (#6200EE) | Low-light optimized interface |
+| Light Mode | Teal (#03DAC5) | Bright, accessible interface |
+
+## Custom CSS
+
+For advanced customization, you can also override the default styles with custom CSS:

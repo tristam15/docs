@@ -1,33 +1,76 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'API Introduction'
+description: 'Overview of the Lexolingo API endpoints'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+# Lexolingo API
 
-## Welcome
+The Lexolingo API provides programmatic access to quiz content, user scores, and application settings. This documentation covers all available endpoints and how to use them.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+## API Base URL
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+All API endpoints are relative to the base URL:
+
+```
+https://api.lexolingo.com/v1
+```
+
+For local development, the base URL is:
+
+```
+http://localhost:3000/api/v1
+```
+
+## Data Structure
+
+The Lexolingo API follows the hierarchical structure of the application:
+
+```mermaid
+graph TD
+    A[Subjects] --> B[Topics]
+    B --> C[Subtopics]
+    C --> D[Questions]
+    E[Users] --> F[Scores]
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints are authenticated using Bearer tokens.
+
+```bash
+curl -X GET \
+  https://api.lexolingo.com/v1/subjects \
+  -H 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Response Format
+
+All API responses are returned in JSON format and include a standard structure:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+{
+  "success": true,
+  "data": { },
+  "error": null
+}
 ```
+
+In case of an error:
+
+```json
+{
+  "success": false,
+  "data": null,
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "The requested resource was not found"
+  }
+}
+```
+
+## Rate Limiting
+
+The API implements rate limiting to ensure fair usage. Current limits are:
+
+- 100 requests per minute for authenticated users
+- 20 requests per minute for unauthenticated users

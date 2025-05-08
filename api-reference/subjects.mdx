@@ -1,0 +1,259 @@
+---
+title: 'Subjects API'
+description: 'API endpoints for managing quiz subjects'
+---
+
+# Subjects API
+
+Subjects are the top-level categories in the Lexolingo quiz hierarchy. These endpoints allow you to create, retrieve, update, and delete subjects.
+
+## Get All Subjects
+
+<ParamField query="includeTopics" type="boolean" default="false">
+  When true, includes all topics within each subject in the response
+</ParamField>
+
+<ParamField query="limit" type="number" default="20">
+  Maximum number of subjects to return
+</ParamField>
+
+<ParamField query="offset" type="number" default="0">
+  Number of subjects to skip for pagination
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X GET \
+    "https://api.lexolingo.com/v1/subjects?includeTopics=true" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+
+  ```javascript Node.js
+  const axios = require('axios');
+  
+  const response = await axios.get('https://api.lexolingo.com/v1/subjects', {
+    params: { includeTopics: true },
+    headers: { Authorization: 'Bearer YOUR_API_KEY' }
+  });
+  
+  console.log(response.data);
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": [
+      {
+        "id": 1,
+        "name": "Characters",
+        "description": "Star Wars characters from all eras",
+        "iconUrl": "https://assets.lexolingo.com/icons/characters.png",
+        "topicCount": 5,
+        "questionCount": 120,
+        "topics": [
+          {
+            "id": 1,
+            "name": "Jedi",
+            "description": "Jedi Knights and Masters"
+          },
+          {
+            "id": 2,
+            "name": "Sith",
+            "description": "Sith Lords and apprentices"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Planets",
+        "description": "Worlds of the Star Wars galaxy",
+        "iconUrl": "https://assets.lexolingo.com/icons/planets.png",
+        "topicCount": 3,
+        "questionCount": 75,
+        "topics": [
+          {
+            "id": 6,
+            "name": "Core Worlds",
+            "description": "Planets in the galactic core"
+          },
+          {
+            "id": 7,
+            "name": "Outer Rim",
+            "description": "Planets in the Outer Rim territories"
+          }
+        ]
+      }
+    ],
+    "error": null,
+    "meta": {
+      "total": 5,
+      "limit": 20,
+      "offset": 0
+    }
+  }
+  ```
+</ResponseExample>
+
+## Get Subject by ID
+
+<ParamField path="id" type="number" required>
+  The unique identifier of the subject
+</ParamField>
+
+<ParamField query="includeTopics" type="boolean" default="false">
+  When true, includes all topics within the subject in the response
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X GET \
+    "https://api.lexolingo.com/v1/subjects/1" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "id": 1,
+      "name": "Characters",
+      "description": "Star Wars characters from all eras",
+      "iconUrl": "https://assets.lexolingo.com/icons/characters.png",
+      "topicCount": 5,
+      "questionCount": 120
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Create Subject
+
+<ParamField body="name" type="string" required>
+  Name of the subject
+</ParamField>
+
+<ParamField body="description" type="string">
+  Description of the subject
+</ParamField>
+
+<ParamField body="iconUrl" type="string">
+  URL to the subject's icon image
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X POST \
+    "https://api.lexolingo.com/v1/subjects" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "name": "Vehicles",
+      "description": "Starships, speeders, and other vehicles",
+      "iconUrl": "https://assets.lexolingo.com/icons/vehicles.png"
+    }'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "id": 3,
+      "name": "Vehicles",
+      "description": "Starships, speeders, and other vehicles",
+      "iconUrl": "https://assets.lexolingo.com/icons/vehicles.png",
+      "topicCount": 0,
+      "questionCount": 0
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Update Subject
+
+<ParamField path="id" type="number" required>
+  The unique identifier of the subject to update
+</ParamField>
+
+<ParamField body="name" type="string">
+  Updated name of the subject
+</ParamField>
+
+<ParamField body="description" type="string">
+  Updated description of the subject
+</ParamField>
+
+<ParamField body="iconUrl" type="string">
+  Updated URL to the subject's icon image
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X PUT \
+    "https://api.lexolingo.com/v1/subjects/3" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "name": "Starships & Vehicles",
+      "description": "All spacecraft and ground vehicles"
+    }'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "id": 3,
+      "name": "Starships & Vehicles",
+      "description": "All spacecraft and ground vehicles",
+      "iconUrl": "https://assets.lexolingo.com/icons/vehicles.png",
+      "topicCount": 0,
+      "questionCount": 0
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Delete Subject
+
+<ParamField path="id" type="number" required>
+  The unique identifier of the subject to delete
+</ParamField>
+
+<ParamField query="force" type="boolean" default="false">
+  When true, deletes the subject and all its associated topics, subtopics, and questions. 
+  When false, the operation will fail if the subject contains any topics.
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X DELETE \
+    "https://api.lexolingo.com/v1/subjects/3?force=true" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "message": "Subject deleted successfully",
+      "deletedTopics": 2,
+      "deletedSubtopics": 5,
+      "deletedQuestions": 25
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>

@@ -1,0 +1,359 @@
+---
+title: 'Scores API'
+description: 'API endpoints for managing quiz scores and user performance'
+---
+
+# Scores API
+
+The Scores API allows you to track, retrieve, and analyze user quiz performance across different subjects, topics, and subtopics.
+
+## Get User Scores
+
+<ParamField query="userId" type="string">
+  Filter scores by user ID
+</ParamField>
+
+<ParamField query="subjectId" type="number">
+  Filter scores by subject ID
+</ParamField>
+
+<ParamField query="topicId" type="number">
+  Filter scores by topic ID
+</ParamField>
+
+<ParamField query="subtopicId" type="number">
+  Filter scores by subtopic ID
+</ParamField>
+
+<ParamField query="limit" type="number" default="20">
+  Maximum number of score records to return
+</ParamField>
+
+<ParamField query="offset" type="number" default="0">
+  Number of score records to skip for pagination
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X GET \
+    "https://api.lexolingo.com/v1/scores?userId=user123&subjectId=1" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+
+  ```javascript Node.js
+  const axios = require('axios');
+  
+  const response = await axios.get('https://api.lexolingo.com/v1/scores', {
+    params: { 
+      userId: 'user123',
+      subjectId: 1 
+    },
+    headers: { Authorization: 'Bearer YOUR_API_KEY' }
+  });
+  
+  console.log(response.data);
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": [
+      {
+        "id": 1,
+        "userId": "user123",
+        "quizId": "quiz_456",
+        "subjectId": 1,
+        "topicId": 1,
+        "subtopicId": 2,
+        "score": 85,
+        "maxScore": 100,
+        "correctAnswers": 17,
+        "totalQuestions": 20,
+        "timeTaken": 345,
+        "completedAt": "2025-05-07T14:23:45Z"
+      },
+      {
+        "id": 2,
+        "userId": "user123",
+        "quizId": "quiz_789",
+        "subjectId": 1,
+        "topicId": 2,
+        "subtopicId": 4,
+        "score": 70,
+        "maxScore": 100,
+        "correctAnswers": 7,
+        "totalQuestions": 10,
+        "timeTaken": 180,
+        "completedAt": "2025-05-08T09:12:30Z"
+      }
+    ],
+    "error": null,
+    "meta": {
+      "total": 12,
+      "limit": 20,
+      "offset": 0
+    }
+  }
+  ```
+</ResponseExample>
+
+## Get Score by ID
+
+<ParamField path="id" type="number" required>
+  The unique identifier of the score record
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X GET \
+    "https://api.lexolingo.com/v1/scores/1" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "id": 1,
+      "userId": "user123",
+      "quizId": "quiz_456",
+      "subjectId": 1,
+      "topicId": 1,
+      "subtopicId": 2,
+      "score": 85,
+      "maxScore": 100,
+      "correctAnswers": 17,
+      "totalQuestions": 20,
+      "timeTaken": 345,
+      "completedAt": "2025-05-07T14:23:45Z",
+      "questionDetails": [
+        {
+          "questionId": 12,
+          "correct": true,
+          "userAnswer": 2,
+          "timeTaken": 15
+        },
+        {
+          "questionId": 15,
+          "correct": false,
+          "userAnswer": 1,
+          "correctAnswer": 3,
+          "timeTaken": 22
+        }
+        // More question details...
+      ]
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Create Score
+
+<ParamField body="userId" type="string" required>
+  ID of the user who took the quiz
+</ParamField>
+
+<ParamField body="quizId" type="string" required>
+  Unique identifier for the quiz session
+</ParamField>
+
+<ParamField body="subjectId" type="number" required>
+  ID of the subject the quiz belongs to
+</ParamField>
+
+<ParamField body="topicId" type="number">
+  ID of the topic the quiz belongs to (if applicable)
+</ParamField>
+
+<ParamField body="subtopicId" type="number">
+  ID of the subtopic the quiz belongs to (if applicable)
+</ParamField>
+
+<ParamField body="score" type="number" required>
+  Numerical score achieved (typically 0-100)
+</ParamField>
+
+<ParamField body="maxScore" type="number" required>
+  Maximum possible score for the quiz
+</ParamField>
+
+<ParamField body="correctAnswers" type="number" required>
+  Number of questions answered correctly
+</ParamField>
+
+<ParamField body="totalQuestions" type="number" required>
+  Total number of questions in the quiz
+</ParamField>
+
+<ParamField body="timeTaken" type="number" required>
+  Time taken to complete the quiz in seconds
+</ParamField>
+
+<ParamField body="questionDetails" type="array">
+  Detailed information about each question's response
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X POST \
+    "https://api.lexolingo.com/v1/scores" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "userId": "user123",
+      "quizId": "quiz_101112",
+      "subjectId": 2,
+      "topicId": 6,
+      "subtopicId": 12,
+      "score": 90,
+      "maxScore": 100,
+      "correctAnswers": 9,
+      "totalQuestions": 10,
+      "timeTaken": 240,
+      "questionDetails": [
+        {
+          "questionId": 45,
+          "correct": true,
+          "userAnswer": 1,
+          "timeTaken": 18
+        },
+        {
+          "questionId": 47,
+          "correct": true,
+          "userAnswer": 0,
+          "timeTaken": 12
+        },
+        {
+          "questionId": 50,
+          "correct": false,
+          "userAnswer": 2,
+          "correctAnswer": 3,
+          "timeTaken": 30
+        }
+      ]
+    }'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "id": 13,
+      "userId": "user123",
+      "quizId": "quiz_101112",
+      "subjectId": 2,
+      "topicId": 6,
+      "subtopicId": 12,
+      "score": 90,
+      "maxScore": 100,
+      "correctAnswers": 9,
+      "totalQuestions": 10,
+      "timeTaken": 240,
+      "completedAt": "2025-05-08T13:15:22Z",
+      "questionDetails": [
+        {
+          "questionId": 45,
+          "correct": true,
+          "userAnswer": 1,
+          "timeTaken": 18
+        },
+        {
+          "questionId": 47,
+          "correct": true,
+          "userAnswer": 0,
+          "timeTaken": 12
+        },
+        {
+          "questionId": 50,
+          "correct": false,
+          "userAnswer": 2,
+          "correctAnswer": 3,
+          "timeTaken": 30
+        }
+      ]
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Get User Statistics
+
+<ParamField path="userId" type="string" required>
+  The user ID to get statistics for
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X GET \
+    "https://api.lexolingo.com/v1/scores/stats/user123" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "userId": "user123",
+      "totalQuizzesTaken": 25,
+      "totalQuestionsAnswered": 320,
+      "correctAnswers": 275,
+      "averageScore": 85.9,
+      "averageTimePerQuestion": 16.3,
+      "subjectBreakdown": [
+        {
+          "subjectId": 1,
+          "subjectName": "Characters",
+          "quizzesTaken": 12,
+          "averageScore": 88.3
+        },
+        {
+          "subjectId": 2,
+          "subjectName": "Planets",
+          "quizzesTaken": 8,
+          "averageScore": 79.5
+        },
+        {
+          "subjectId": 3,
+          "subjectName": "Vehicles",
+          "quizzesTaken": 5,
+          "averageScore": 92.0
+        }
+      ],
+      "recentActivity": [
+        {
+          "quizId": "quiz_101112",
+          "subjectName": "Planets",
+          "topicName": "Core Worlds",
+          "score": 90,
+          "completedAt": "2025-05-08T13:15:22Z"
+        },
+        {
+          "quizId": "quiz_789",
+          "subjectName": "Characters",
+          "topicName": "Sith",
+          "score": 70,
+          "completedAt": "2025-05-08T09:12:30Z"
+        },
+        {
+          "quizId": "quiz_456",
+          "subjectName": "Characters",
+          "topicName": "Jedi",
+          "score": 85,
+          "completedAt": "2025-05-07T14:23:45Z"
+        }
+      ]
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>

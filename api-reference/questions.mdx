@@ -1,0 +1,442 @@
+---
+title: 'Questions API'
+description: 'API endpoints for managing quiz questions'
+---
+
+# Questions API
+
+Questions are the core content of the Lexolingo quiz app. These endpoints allow you to create, retrieve, update, and delete questions, as well as import questions in bulk.
+
+## Get Questions
+
+<ParamField query="subtopicId" type="number">
+  Filter questions by subtopic ID
+</ParamField>
+
+<ParamField query="topicId" type="number">
+  Filter questions by topic ID (returns questions from all subtopics in the topic)
+</ParamField>
+
+<ParamField query="subjectId" type="number">
+  Filter questions by subject ID (returns questions from all topics and subtopics in the subject)
+</ParamField>
+
+<ParamField query="limit" type="number" default="20">
+  Maximum number of questions to return
+</ParamField>
+
+<ParamField query="offset" type="number" default="0">
+  Number of questions to skip for pagination
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X GET \
+    "https://api.lexolingo.com/v1/questions?subtopicId=1&limit=10" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+
+  ```javascript Node.js
+  const axios = require('axios');
+  
+  const response = await axios.get('https://api.lexolingo.com/v1/questions', {
+    params: { 
+      subtopicId: 1,
+      limit: 10 
+    },
+    headers: { Authorization: 'Bearer YOUR_API_KEY' }
+  });
+  
+  console.log(response.data);
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": [
+      {
+        "id": 1,
+        "subtopicId": 1,
+        "text": "Who was the Grand Master of the Jedi Order during the Clone Wars?",
+        "options": [
+          "Mace Windu",
+          "Obi-Wan Kenobi",
+          "Yoda",
+          "Ki-Adi-Mundi"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Yoda served as the Grand Master of the Jedi Order during the Clone Wars.",
+        "difficulty": "medium"
+      },
+      {
+        "id": 2,
+        "subtopicId": 1,
+        "text": "Which Jedi Master sat on the council but was not granted the rank of Master?",
+        "options": [
+          "Obi-Wan Kenobi",
+          "Anakin Skywalker",
+          "Ahsoka Tano",
+          "Count Dooku"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Anakin Skywalker was appointed to the Jedi Council by Chancellor Palpatine, but the Council did not grant him the rank of Master.",
+        "difficulty": "hard"
+      }
+      // More questions...
+    ],
+    "error": null,
+    "meta": {
+      "total": 45,
+      "limit": 10,
+      "offset": 0
+    }
+  }
+  ```
+</ResponseExample>
+
+## Get Question by ID
+
+<ParamField path="id" type="number" required>
+  The unique identifier of the question
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X GET \
+    "https://api.lexolingo.com/v1/questions/1" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "id": 1,
+      "subtopicId": 1,
+      "text": "Who was the Grand Master of the Jedi Order during the Clone Wars?",
+      "options": [
+        "Mace Windu",
+        "Obi-Wan Kenobi",
+        "Yoda",
+        "Ki-Adi-Mundi"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Yoda served as the Grand Master of the Jedi Order during the Clone Wars.",
+      "difficulty": "medium",
+      "metadata": {
+        "createdAt": "2025-01-15T12:30:45Z",
+        "updatedAt": "2025-01-15T12:30:45Z",
+        "createdBy": "admin"
+      }
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Create Question
+
+<ParamField body="subtopicId" type="number" required>
+  ID of the subtopic this question belongs to
+</ParamField>
+
+<ParamField body="text" type="string" required>
+  The question text
+</ParamField>
+
+<ParamField body="options" type="array" required>
+  Array of answer options (strings)
+</ParamField>
+
+<ParamField body="correctOptionIndex" type="number" required>
+  Zero-based index of the correct answer in the options array
+</ParamField>
+
+<ParamField body="explanation" type="string">
+  Explanation of the correct answer (shown after answering)
+</ParamField>
+
+<ParamField body="difficulty" type="string">
+  Difficulty level of the question (easy, medium, hard)
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X POST \
+    "https://api.lexolingo.com/v1/questions" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "subtopicId": 1,
+      "text": "Who trained Obi-Wan Kenobi as a Padawan?",
+      "options": [
+        "Mace Windu",
+        "Yoda",
+        "Qui-Gon Jinn",
+        "Count Dooku"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Qui-Gon Jinn was Obi-Wan Kenobi\'s Jedi Master.",
+      "difficulty": "medium"
+    }'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "id": 46,
+      "subtopicId": 1,
+      "text": "Who trained Obi-Wan Kenobi as a Padawan?",
+      "options": [
+        "Mace Windu",
+        "Yoda",
+        "Qui-Gon Jinn",
+        "Count Dooku"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Qui-Gon Jinn was Obi-Wan Kenobi's Jedi Master.",
+      "difficulty": "medium",
+      "metadata": {
+        "createdAt": "2025-05-08T07:45:30Z",
+        "updatedAt": "2025-05-08T07:45:30Z",
+        "createdBy": "admin"
+      }
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Bulk Create Questions
+
+<ParamField body="questions" type="array" required>
+  Array of question objects to create
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X POST \
+    "https://api.lexolingo.com/v1/questions/bulk" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "questions": [
+        {
+          "subtopicId": 1,
+          "text": "Which Jedi Master had a purple lightsaber?",
+          "options": [
+            "Mace Windu",
+            "Kit Fisto",
+            "Plo Koon",
+            "Aayla Secura"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Mace Windu wielded a purple-bladed lightsaber.",
+          "difficulty": "easy"
+        },
+        {
+          "subtopicId": 1,
+          "text": "Which female Jedi Master was killed during Order 66 on Felucia?",
+          "options": [
+            "Shaak Ti",
+            "Luminara Unduli",
+            "Aayla Secura",
+            "Jocasta Nu"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "Aayla Secura was killed by her clone troopers on Felucia during Order 66.",
+          "difficulty": "hard"
+        }
+      ]
+    }'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "created": 2,
+      "questions": [
+        {
+          "id": 47,
+          "subtopicId": 1,
+          "text": "Which Jedi Master had a purple lightsaber?",
+          "options": [
+            "Mace Windu",
+            "Kit Fisto",
+            "Plo Koon",
+            "Aayla Secura"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "Mace Windu wielded a purple-bladed lightsaber.",
+          "difficulty": "easy"
+        },
+        {
+          "id": 48,
+          "subtopicId": 1,
+          "text": "Which female Jedi Master was killed during Order 66 on Felucia?",
+          "options": [
+            "Shaak Ti",
+            "Luminara Unduli",
+            "Aayla Secura",
+            "Jocasta Nu"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "Aayla Secura was killed by her clone troopers on Felucia during Order 66.",
+          "difficulty": "hard"
+        }
+      ]
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Import Questions from CSV
+
+<ParamField body="file" type="file" required>
+  CSV file containing questions to import
+</ParamField>
+
+<ParamField body="createMissingHierarchy" type="boolean" default="true">
+  When true, creates any missing subjects, topics, or subtopics specified in the CSV
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X POST \
+    "https://api.lexolingo.com/v1/questions/import" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: multipart/form-data" \
+    -F "file=@/path/to/questions.csv" \
+    -F "createMissingHierarchy=true"
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "imported": 25,
+      "skipped": 2,
+      "errors": [
+        {
+          "row": 3,
+          "message": "Missing required field 'Question'"
+        },
+        {
+          "row": 12,
+          "message": "Invalid correctOption value '5', must be between 1 and 4"
+        }
+      ],
+      "createdSubjects": 1,
+      "createdTopics": 2,
+      "createdSubtopics": 3
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Update Question
+
+<ParamField path="id" type="number" required>
+  The unique identifier of the question to update
+</ParamField>
+
+<ParamField body="text" type="string">
+  Updated question text
+</ParamField>
+
+<ParamField body="options" type="array">
+  Updated array of answer options
+</ParamField>
+
+<ParamField body="correctOptionIndex" type="number">
+  Updated index of the correct answer
+</ParamField>
+
+<ParamField body="explanation" type="string">
+  Updated explanation
+</ParamField>
+
+<ParamField body="difficulty" type="string">
+  Updated difficulty level
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X PUT \
+    "https://api.lexolingo.com/v1/questions/1" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "text": "Who served as the Grand Master of the Jedi Order during the Clone Wars?",
+      "explanation": "Master Yoda was the Grand Master of the Jedi Order during the Clone Wars era."
+    }'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "id": 1,
+      "subtopicId": 1,
+      "text": "Who served as the Grand Master of the Jedi Order during the Clone Wars?",
+      "options": [
+        "Mace Windu",
+        "Obi-Wan Kenobi",
+        "Yoda",
+        "Ki-Adi-Mundi"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Master Yoda was the Grand Master of the Jedi Order during the Clone Wars era.",
+      "difficulty": "medium",
+      "metadata": {
+        "createdAt": "2025-01-15T12:30:45Z",
+        "updatedAt": "2025-05-08T07:50:22Z",
+        "createdBy": "admin"
+      }
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>
+
+## Delete Question
+
+<ParamField path="id" type="number" required>
+  The unique identifier of the question to delete
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl -X DELETE \
+    "https://api.lexolingo.com/v1/questions/1" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "data": {
+      "message": "Question deleted successfully"
+    },
+    "error": null
+  }
+  ```
+</ResponseExample>

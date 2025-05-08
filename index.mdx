@@ -1,71 +1,85 @@
 ---
-title: Introduction
-description: "Welcome to the home of your new documentation"
+title: Lexolingo Documentation
+description: "Your customizable Star Wars quiz application"
 ---
+
+# Welcome to Lexolingo
 
 <img
   className="block dark:hidden"
   src="/images/hero-light.png"
-  alt="Hero Light"
+  alt="Lexolingo Light Mode"
 />
 <img
   className="hidden dark:block"
   src="/images/hero-dark.png"
-  alt="Hero Dark"
+  alt="Lexolingo Dark Mode"
 />
 
-## Setting up
+Lexolingo is a customizable quiz application initially themed around Star Wars. Built with modern web technologies including Astro, React, TypeScript, Shadcn UI, and Tailwind CSS, it offers a responsive and engaging quiz experience for users on all devices.
 
-The first step to world-class documentation is setting up your editing environments.
+## Core Features
 
 <CardGroup cols={2}>
   <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
+    title="Hierarchical Content"
+    icon="sitemap"
+    href="/features/quiz-structure"
   >
-    Get your docs set up locally for easy development
+    Organize quiz content in a structured hierarchy: Subjects → Topics → Subtopics → Questions
   </Card>
   <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
+    title="Question Management"
+    icon="clipboard-question"
+    href="/features/question-management"
   >
-    Preview your changes before you push to make sure they're perfect
+    Add questions individually, in bulk, or import from CSV files
+  </Card>
+  <Card
+    title="Mobile-First Design"
+    icon="mobile-screen"
+    href="/features/responsive-design"
+  >
+    Optimized for Android and iOS devices with touch-friendly interfaces
+  </Card>
+  <Card
+    title="Customizable Themes"
+    icon="palette"
+    href="/features/themes"
+  >
+    Easily customize colors, typography, and visual elements
   </Card>
 </CardGroup>
 
-## Make it yours
+## Technology Stack
 
-Update your docs to your brand and add valuable content for the best user conversion.
+<CardGroup cols={3}>
+  <Card title="Frontend" icon="browser">
+    Astro 5.x, React, TypeScript, Shadcn UI, Tailwind CSS
+  </Card>
+  <Card title="Backend" icon="server">
+    RESTful API with comprehensive endpoints for all quiz content
+  </Card>
+  <Card title="Database" icon="database">
+    Structured data storage for quiz content and user scores
+  </Card>
+</CardGroup>
+
+## Getting Started
 
 <CardGroup cols={2}>
   <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
+    title="Quick Start Guide"
+    icon="rocket"
+    href="/quickstart"
   >
-    Customize your docs to your company's colors and brands
+    Get Lexolingo up and running in minutes
   </Card>
   <Card
-    title="Reference APIs"
+    title="API Reference"
     icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
+    href="/api-reference/introduction"
   >
-    Automatically generate endpoints from an OpenAPI spec
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/content/components/accordions"
-  >
-    Build interactive features and designs to guide your users
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
-  >
-    Check out our showcase of our favorite documentation
+    Comprehensive API documentation for developers
   </Card>
 </CardGroup>

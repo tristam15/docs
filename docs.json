@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "slate",
+  "theme": "mint",
   "name": "Lexolingo Documentation",
   "colors": {
     "primary": "#FFE81F",
